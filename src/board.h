@@ -7,6 +7,7 @@
 class Board{
   public:
   Board(int x, int y, int bombs);
+  ~Board();
 
   void GenerateBoard();
 
