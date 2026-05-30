@@ -1,0 +1,16 @@
+#include "tile.h"
+#include <vector>
+
+class Board{
+  public:
+  Board(int x, int y, int bombs);
+
+  void GenerateBoard();
+
+  private:
+  int x_size_;
+  int y_size_;
+  int bomb_count_;
+
+  std::vector<std::vector<Tile*>> board_;
+};
