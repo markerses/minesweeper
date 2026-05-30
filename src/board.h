@@ -1,3 +1,6 @@
+#ifndef M_BOARD_H
+#define M_BOARD_H
+
 #include "tile.h"
 #include <vector>
 
@@ -14,3 +17,5 @@ class Board{
 
   std::vector<std::vector<Tile*>> board_;
 };
+
+#endif

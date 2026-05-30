@@ -1,3 +1,6 @@
+#ifndef M_TILE_H
+#define M_TILE_H
+
 class Tile {
   public:
   Tile();
@@ -11,3 +14,5 @@ class Tile {
   bool vis_ = false;
 
 };
+
+#endif
