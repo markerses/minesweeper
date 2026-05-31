@@ -77,6 +77,7 @@ void Board::GenerateBoard() {
   }
 }
 
+// Resets board and generated new one
 void Board::ResetBoard() {
   for (size_t i = 0; i < this->x_size_; i++) { 
     for (size_t j = 0; j < this->y_size_; j++) {
@@ -86,6 +87,7 @@ void Board::ResetBoard() {
   this->GenerateBoard();
 }
 
+// Returns interal board
 std::vector<std::vector<Tile*>> Board::ShowBoard() {
   return this->board_;
 }
