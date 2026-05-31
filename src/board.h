@@ -10,6 +10,7 @@ class Board{
   ~Board();
 
   void GenerateBoard();
+  void ResetBoard();
 
   private:
   void UpdateSurrounding(int x, int y);

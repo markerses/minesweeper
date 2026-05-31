@@ -27,6 +27,8 @@ Board::Board(int x, int y, int bombs) {
     }
     this->board_.push_back(v);
   }
+
+  this->GenerateBoard();
 }
 
 // clears board, frees pointers
@@ -72,5 +74,13 @@ void Board::GenerateBoard() {
       }
     }
   }
+}
 
+void Board::ResetBoard() {
+  for (size_t i = 0; i < this->x_size_; i++) { 
+    for (size_t j = 0; j < this->y_size_; j++) {
+      this->board_[i][j]->Update(-2);
+    }
+  }
+  this->GenerateBoard();
 }
