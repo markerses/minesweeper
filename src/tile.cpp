@@ -12,6 +12,8 @@ void Tile::Activate() {
   this->vis_ = true;
 }
 
+// Updates tile number by one, or sets to bomb when inputing -1
+// Clears when inputing -2
 void Tile::Update(int c) {
   if (c == -1) {
     this->num_ = c;

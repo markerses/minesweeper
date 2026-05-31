@@ -13,6 +13,7 @@ std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
   return {x_res(rng), y_res(rng)};
 }
 
+// Generates board of size x, y, with specified bomb count
 Board::Board(int x, int y, int bombs) {
   this->x_size_ = x;
   this->y_size_ = y;
@@ -28,6 +29,7 @@ Board::Board(int x, int y, int bombs) {
   }
 }
 
+// clears board, frees pointers
 Board::~Board() {
   for (size_t i = 0; i < this->x_size_; i++) {
     for (size_t j = 0; j < this->y_size_; j++) {
@@ -36,13 +38,14 @@ Board::~Board() {
   }
 }
 
+// Private method that updates the number count of tiles surrounding a new bomb
 void Board::UpdateSurrounding(int x, int y) {
   static const int moves[8][2] = {
     {-1, 1},  {0, 1},  {1, 1},
     {-1, 0},           {1, 0},
     {-1, -1}, {0, -1}, {1, -1}
   };
-  
+
   for (int i = 0; i < 8; i++) {
     int move[2] = {moves[i][0], moves[i][1]};
     int new_x = x + move[0];
@@ -55,7 +58,8 @@ void Board::UpdateSurrounding(int x, int y) {
     }
   }
 }
- 
+
+// Generates a board with randomly placed bombs
 void Board::GenerateBoard() {
   for (int i = 0; i < this->bomb_count_; i++) {
     while (true) {
