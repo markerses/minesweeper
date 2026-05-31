@@ -7,8 +7,8 @@
 std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
   std::random_device seed;
   std::mt19937 rng(seed());
-  std::uniform_int_distribution<::std::mt19937::result_type> x_res(0, x_range);
-  std::uniform_int_distribution<::std::mt19937::result_type> y_res(0, y_range);
+  std::uniform_int_distribution<::std::mt19937::result_type> x_res(0, x_range - 1);
+  std::uniform_int_distribution<::std::mt19937::result_type> y_res(0, y_range - 1);
 
   return {x_res(rng), y_res(rng)};
 }
@@ -17,6 +17,8 @@ std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
 Board::Board(int x, int y, int bombs) {
   this->x_size_ = x;
   this->y_size_ = y;
+
+  this->bomb_count_ = bombs;
 
   this->board_.reserve(x);
   for (size_t i = 0; i < x; i++) {
@@ -52,8 +54,8 @@ void Board::UpdateSurrounding(int x, int y) {
     int move[2] = {moves[i][0], moves[i][1]};
     int new_x = x + move[0];
     int new_y = y + move[1];
-    if ((new_x > 0 && new_x < this->x_size_) &&
-        (new_y > 0 && new_y < this->x_size_)) {
+    if ((new_x >= 0 && new_x < this->x_size_) &&
+        (new_y >= 0 && new_y < this->x_size_)) {
           
       Tile* eval = this->board_[new_x][new_y];
       eval->Update(0);  
@@ -63,15 +65,14 @@ void Board::UpdateSurrounding(int x, int y) {
 
 // Generates a board with randomly placed bombs
 void Board::GenerateBoard() {
-  for (int i = 0; i < this->bomb_count_; i++) {
-    while (true) {
-      std::pair<int, int> res = generate_rand_pos(this->x_size_, this->y_size_);
-      Tile* eval = this->board_[res.first][res.second];
-      if (eval->TileNumber() != -1) {
-        eval->Update(-1);
-        this->UpdateSurrounding(res.first, res.second);
-        break;
-      }
+  int i = 0;
+  while (i < this->bomb_count_) {
+    std::pair<int, int> res = generate_rand_pos(this->x_size_, this->y_size_);
+    Tile* eval = this->board_[res.first][res.second];
+    if (eval->TileNumber() != -1) {
+      eval->Update(-1);
+      this->UpdateSurrounding(res.first, res.second);
+      i++;
     }
   }
 }
@@ -83,4 +84,8 @@ void Board::ResetBoard() {
     }
   }
   this->GenerateBoard();
+}
+
+std::vector<std::vector<Tile*>> Board::ShowBoard() {
+  return this->board_;
 }

@@ -12,6 +12,8 @@ class Board{
   void GenerateBoard();
   void ResetBoard();
 
+  std::vector<std::vector<Tile*>> ShowBoard();
+
   private:
   void UpdateSurrounding(int x, int y);
   int x_size_;
