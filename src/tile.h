@@ -8,9 +8,10 @@ class Tile {
 
   void Activate();
   void Update(int c);
+  int TileNumber();
 
   private:
-  int num = 0;
+  int num_ = 0;
   bool vis_ = false;
 
 };

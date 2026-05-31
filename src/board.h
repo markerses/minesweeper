@@ -12,6 +12,7 @@ class Board{
   void GenerateBoard();
 
   private:
+  void UpdateSurrounding(int x, int y);
   int x_size_;
   int y_size_;
   int bomb_count_;

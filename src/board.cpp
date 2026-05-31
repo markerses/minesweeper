@@ -1,5 +1,18 @@
 #include "board.h"
 
+#include <vector>
+#include <random>
+#include <utility>
+
+std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
+  std::random_device seed;
+  std::mt19937 rng(seed());
+  std::uniform_int_distribution<::std::mt19937::result_type> x_res(0, x_range);
+  std::uniform_int_distribution<::std::mt19937::result_type> y_res(0, y_range);
+
+  return {x_res(rng), y_res(rng)};
+}
+
 Board::Board(int x, int y, int bombs) {
   this->x_size_ = x;
   this->y_size_ = y;
@@ -21,4 +34,39 @@ Board::~Board() {
       delete this->board_[i][j];
     }
   }
+}
+
+void Board::UpdateSurrounding(int x, int y) {
+  static const int moves[8][2] = {
+    {-1, 1},  {0, 1},  {1, 1},
+    {-1, 0},           {1, 0},
+    {-1, -1}, {0, -1}, {1, -1}
+  };
+  
+  for (int i = 0; i < 8; i++) {
+    int move[2] = {moves[i][0], moves[i][1]};
+    int new_x = x + move[0];
+    int new_y = y + move[1];
+    if ((new_x > 0 && new_x < this->x_size_) &&
+        (new_y > 0 && new_y < this->x_size_)) {
+          
+      Tile* eval = this->board_[new_x][new_y];
+      eval->Update(0);  
+    }
+  }
+}
+ 
+void Board::GenerateBoard() {
+  for (int i = 0; i < this->bomb_count_; i++) {
+    while (true) {
+      std::pair<int, int> res = generate_rand_pos(this->x_size_, this->y_size_);
+      Tile* eval = this->board_[res.first][res.second];
+      if (eval->TileNumber() != -1) {
+        eval->Update(-1);
+        this->UpdateSurrounding(res.first, res.second);
+        break;
+      }
+    }
+  }
+
 }
