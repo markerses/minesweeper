@@ -2,6 +2,7 @@
 #include "../include/raylib.h"
 
 #include <iostream>
+#include <string>
 
 // Define Graphics
 
@@ -50,17 +51,22 @@ int main() {
     BeginDrawing();
 
     ClearBackground(BLACK);
-    DrawRectangle(180, 180, 490, 490, GRAY);
+    DrawRectangle(180, 180, 475, 475, GRAY);
 
     for (size_t i = 0; i < X_BOARD; i++) {
       for (size_t j = 0; j < Y_BOARD; j++) {
         int x_pos = 200 + (i * TILE_SPACING);
         int y_pos = 200 + (j * TILE_SPACING);
-        Color col = (test_board.ShowBoard()[i][j]->TileNumber() == -1) ? RED:GREEN;
+        int tile_num = test_board.ShowBoard()[i][j]->TileNumber();
+        Color col = (tile_num == -1) ? RED:GREEN;
 
-        DrawRectangle(x_pos, y_pos, TILE_SIZE, TILE_SIZE, col);
+        
+
+        DrawRectangle(x_pos - 8, y_pos - 6, TILE_SIZE, TILE_SIZE, col);
+        DrawText(std::to_string(tile_num).c_str(), x_pos, y_pos, 20, BLACK);
       }
     }
+
 
     EndDrawing();
   }
