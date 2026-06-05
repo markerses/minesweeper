@@ -1,13 +1,15 @@
-#include "board.h"
+#include "../include/board.h"
+#include "../include/raylib.h"
 
 #include <iostream>
-#include <raylib.h>
 
 int main() {
   const int X_BOARD = 15;
   const int Y_BOARD = 15;
   const int BOMBS = 30;
   Board test_board(X_BOARD, Y_BOARD, BOMBS);
+
+  InitWindow(800, 800, "Markerses Minesweeper");
 
   /* Terminal Testing
   while (true) {
@@ -30,6 +32,13 @@ int main() {
   }
   */
 
+  while (!WindowShouldClose()) {
+    BeginDrawing();
 
+    EndDrawing();
+  }
+
+
+  CloseWindow();
   return 0;
 }
