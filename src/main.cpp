@@ -42,6 +42,11 @@ int main() {
   */
 
   while (!WindowShouldClose()) {
+
+    if (IsKeyPressed(KEY_SPACE)) {
+      test_board.ResetBoard();
+    }
+
     BeginDrawing();
 
     ClearBackground(BLACK);
