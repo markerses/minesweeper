@@ -87,6 +87,12 @@ void Board::ResetBoard() {
   this->GenerateBoard();
 }
 
+// Returns board's x size
+int Board::GetSizeX() {return x_size_;}
+
+// Returns board's y size
+int Board::GetSizeY() {return x_size_;}
+
 // Returns interal board
 std::vector<std::vector<Tile*>> Board::ShowBoard() {
   return this->board_;

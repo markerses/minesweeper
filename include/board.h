@@ -11,6 +11,8 @@ class Board{
 
   void GenerateBoard();
   void ResetBoard();
+  int GetSizeX();
+  int GetSizeY();
 
   std::vector<std::vector<Tile*>> ShowBoard();
 
