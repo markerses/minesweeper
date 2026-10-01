@@ -1,5 +1,9 @@
-#include "../include/board.h"
 #include "../include/raylib.h"
+
+#define RAYGUI_IMPLEMENTATION
+#include "../include/raygui.h"
+
+#include "../include/board.h"
 #include "../include/functions.h"
 
 #include <iostream>
@@ -8,7 +12,10 @@
 // Define Graphics
 
 const int TILE_SIZE = 30;
-const int TILE_SPACING = 30;
+const int TILE_SPACING = 29;
+
+const int BOARD_START_X = 180;
+const int BOARD_START_Y = 180;
 
 //
 
@@ -49,12 +56,17 @@ int main() {
       test_board.ResetBoard();
     }
 
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+      std::string message = nullptr != find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y) ?
+          "Tile clicked!\n": "Tile not clicked..\n";
+      std::cout << message;
+    }
+
     BeginDrawing();
 
     ClearBackground(BLACK);
-    DrawRectangle(180, 180, 475, 475, GRAY);
 
-    DrawBoard(test_board, TILE_SIZE, TILE_SPACING);
+    DrawBoard(test_board, TILE_SIZE, TILE_SPACING, BOARD_START_X, BOARD_START_Y);
 
 
     EndDrawing();
