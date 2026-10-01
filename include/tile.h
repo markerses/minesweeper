@@ -9,6 +9,7 @@ class Tile {
   void Activate();
   void Update(int c);
   int TileNumber();
+  bool IsVisible();
 
   private:
   int num_ = 0;

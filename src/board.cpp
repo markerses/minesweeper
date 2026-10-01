@@ -87,6 +87,14 @@ void Board::ResetBoard() {
   this->GenerateBoard();
 }
 
+void Board::RevealBoard() {
+  for (size_t i = 0; i < this->x_size_; i++) {
+    for (size_t j = 0; j < this->y_size_; j++) {
+      this->board_[i][j]->Activate();
+    }
+  }
+}
+
 // Returns board's x size
 int Board::GetSizeX() {return x_size_;}
 

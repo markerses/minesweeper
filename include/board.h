@@ -11,6 +11,8 @@ class Board{
 
   void GenerateBoard();
   void ResetBoard();
+  void RevealBoard();
+
   int GetSizeX();
   int GetSizeY();
 

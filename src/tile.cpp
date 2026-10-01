@@ -23,6 +23,6 @@ void Tile::Update(int c) {
     this->num_++;
 }
 
-int Tile::TileNumber() {
-  return this->num_;
-}
+int Tile::TileNumber() { return this->num_;}
+
+bool Tile::IsVisible() { return this->vis_; }

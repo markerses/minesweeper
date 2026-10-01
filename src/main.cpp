@@ -56,10 +56,16 @@ int main() {
       test_board.ResetBoard();
     }
 
+    // Mouse clicks
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-      std::string message = nullptr != find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y) ?
-          "Tile clicked!\n": "Tile not clicked..\n";
-      std::cout << message;
+      Tile* tile_clicked = find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y);
+      if (tile_clicked != nullptr) {
+        tile_clicked->Activate();
+
+        if (tile_clicked->TileNumber() == -1) {
+          test_board.RevealBoard();
+        }
+      }
     }
 
     BeginDrawing();
