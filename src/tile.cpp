@@ -19,6 +19,7 @@ void Tile::Update(int c) {
     this->num_ = c;
   } else if (c == -2) {
     this->num_ = 0;
+    this->vis_ = false;
   } else if (this->num_ != -1)
     this->num_++;
 }

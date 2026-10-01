@@ -58,13 +58,10 @@ int main() {
 
     // Mouse clicks
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-      Tile* tile_clicked = find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y);
-      if (tile_clicked != nullptr) {
-        tile_clicked->Activate();
-
-        if (tile_clicked->TileNumber() == -1) {
-          test_board.RevealBoard();
-        }
+      auto [x, y] = find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y);
+      Tile* tile = test_board.GetTile(x, y);
+      if (tile != nullptr) {
+        test_board.RevealTile(x, y);
       }
     }
 

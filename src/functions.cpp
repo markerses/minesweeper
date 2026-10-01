@@ -50,13 +50,9 @@ void DrawBoard(Board& b, const int& size, const int& spacing, const int& init_x,
 
 }
 
-Tile* find_click(Board& b, const int& size, const int& init_x, const int& init_y) {
+std::pair<int, int> find_click(Board& b, const int& size, const int& init_x, const int& init_y) {
   int x = (GetMouseX() - init_x) / size;
   int y = (GetMouseY() - init_y) / size;
   std::cout << "mouse clicked: " << x << ", " << y << "\n";
-
-  if ((x >= 0 && x < b.GetSizeX()) && (y >= 0 && y < b.GetSizeY())) {
-    return b.ShowBoard()[x][y];
-  }
-  return nullptr;
+  return {x, y};
 }

@@ -12,9 +12,11 @@ class Board{
   void GenerateBoard();
   void ResetBoard();
   void RevealBoard();
+  void RevealTile(const int& x, const int& y);
 
   int GetSizeX();
   int GetSizeY();
+  Tile* GetTile(const int& x, const int& y);
 
   std::vector<std::vector<Tile*>> ShowBoard();
 

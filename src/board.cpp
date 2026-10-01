@@ -1,5 +1,7 @@
 #include "../include/board.h"
 
+
+#include <iostream>
 #include <vector>
 #include <random>
 #include <utility>
@@ -42,16 +44,17 @@ Board::~Board() {
   }
 }
 
+const int MOVES = 8;
+static const int ADJACENT[8][2] = {
+  {-1, 1},  {0, 1},  {1, 1},
+  {-1, 0},           {1, 0},
+  {-1, -1}, {0, -1}, {1, -1}
+};
+
 // Private method that updates the number count of tiles surrounding a new bomb
 void Board::UpdateSurrounding(int x, int y) {
-  static const int moves[8][2] = {
-    {-1, 1},  {0, 1},  {1, 1},
-    {-1, 0},           {1, 0},
-    {-1, -1}, {0, -1}, {1, -1}
-  };
-
-  for (int i = 0; i < 8; i++) {
-    int move[2] = {moves[i][0], moves[i][1]};
+  for (int i = 0; i < MOVES; i++) {
+    int move[2] = {ADJACENT[i][0], ADJACENT[i][1]};
     int new_x = x + move[0];
     int new_y = y + move[1];
     if ((new_x >= 0 && new_x < this->x_size_) &&
@@ -77,7 +80,7 @@ void Board::GenerateBoard() {
   }
 }
 
-// Resets board and generated new one
+// Resets board and generates new one
 void Board::ResetBoard() {
   for (size_t i = 0; i < this->x_size_; i++) { 
     for (size_t j = 0; j < this->y_size_; j++) {
@@ -87,6 +90,7 @@ void Board::ResetBoard() {
   this->GenerateBoard();
 }
 
+// Reveals entire board
 void Board::RevealBoard() {
   for (size_t i = 0; i < this->x_size_; i++) {
     for (size_t j = 0; j < this->y_size_; j++) {
@@ -95,11 +99,36 @@ void Board::RevealBoard() {
   }
 }
 
+// Reveals Tile with at board coordinates (x, y) 
+void Board::RevealTile(const int& x, const int& y) {
+  if (x < 0 || x >= this->x_size_ || 
+    y < 0 || y >= this->y_size_ || this->board_[x][y]->IsVisible())
+    return;
+
+  std::cout << "revealing " << x << ", " << y << "\n";
+  this->board_[x][y]->Activate();
+  if (this->board_[x][y]->TileNumber() == 0) {
+    for (int i = 0; i < MOVES; i++) {
+      this->RevealTile(x + ADJACENT[i][0], y + ADJACENT[i][1]);
+    }
+  } else if (this->board_[x][y]->TileNumber() == -1) {
+    this->RevealBoard();
+  }
+}
+
 // Returns board's x size
 int Board::GetSizeX() {return x_size_;}
 
 // Returns board's y size
 int Board::GetSizeY() {return x_size_;}
+
+// Returns Tile pointer
+Tile* Board::GetTile(const int& x, const int& y) {
+  if ((x >= 0 && x < this->x_size_) && (y >= 0 && y < this->y_size_)) {
+    return this->board_[x][y];
+  }
+  return nullptr;
+}
 
 // Returns interal board
 std::vector<std::vector<Tile*>> Board::ShowBoard() {
