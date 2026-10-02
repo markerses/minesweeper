@@ -9,6 +9,7 @@ Tile::Tile(int c) {
 }
 
 void Tile::Activate() {
+  this->flagged_ = false;
   this->vis_ = true;
 }
 
@@ -20,10 +21,15 @@ void Tile::Update(int c) {
   } else if (c == -2) {
     this->num_ = 0;
     this->vis_ = false;
+    this->flagged_ = false;
   } else if (this->num_ != -1)
     this->num_++;
 }
 
+void Tile::Flag() { this->flagged_ = !(this->flagged_); }
+
 int Tile::TileNumber() { return this->num_;}
 
 bool Tile::IsVisible() { return this->vis_; }
+
+bool Tile::IsFlagged() { return this->flagged_; }

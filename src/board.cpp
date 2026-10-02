@@ -102,18 +102,35 @@ void Board::RevealBoard() {
 // Reveals Tile with at board coordinates (x, y) 
 void Board::RevealTile(const int& x, const int& y) {
   if (x < 0 || x >= this->x_size_ || 
-    y < 0 || y >= this->y_size_ || this->board_[x][y]->IsVisible())
+    y < 0 || y >= this->y_size_)
+    return;
+  Tile* t = this->board_[x][y];
+
+    if (t->IsFlagged() || t->IsVisible())
     return;
 
   std::cout << "revealing " << x << ", " << y << "\n";
-  this->board_[x][y]->Activate();
-  if (this->board_[x][y]->TileNumber() == 0) {
+  t->Activate();
+  if (t->TileNumber() == 0) {
     for (int i = 0; i < MOVES; i++) {
       this->RevealTile(x + ADJACENT[i][0], y + ADJACENT[i][1]);
     }
-  } else if (this->board_[x][y]->TileNumber() == -1) {
+  } else if (t->TileNumber() == -1) {
     this->RevealBoard();
   }
+}
+
+void Board::FlagTile(const int& x, const int& y) {
+  if (x < 0 || x >= this->x_size_ || 
+    y < 0 || y >= this->y_size_)
+    return;
+
+  Tile* t = this->board_[x][y];
+  if (t->IsVisible())
+    return;
+  
+  std::cout << "flagging " << x << ", " << y << "\n";
+  t->Flag();
 }
 
 // Returns board's x size

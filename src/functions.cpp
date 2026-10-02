@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 void DrawBoard(Board& b, const int& size, const int& spacing, const int& init_x, const int& init_y) {
   const int SPACE_FROM_EDGE = 20;
@@ -43,8 +44,11 @@ void DrawBoard(Board& b, const int& size, const int& spacing, const int& init_x,
 
         DrawRectangle(x_pos, y_pos, size, size, col);
 
-        if (t->IsVisible() && tile_num > 0)
+        if (t->IsVisible() && tile_num > 0) {
           DrawText(std::to_string(tile_num).c_str(), x_pos + 10, y_pos + 6, 20, BLACK);
+        } else if (t->IsFlagged()) {
+          DrawText(std::string("F").c_str(), x_pos + 10, y_pos + 6, 20, BLACK); // Might memory leak...
+        }
       }
     }
 

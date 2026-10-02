@@ -13,6 +13,7 @@ class Board{
   void ResetBoard();
   void RevealBoard();
   void RevealTile(const int& x, const int& y);
+  void FlagTile(const int& x, const int& y);
 
   int GetSizeX();
   int GetSizeY();
