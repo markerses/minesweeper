@@ -15,12 +15,16 @@ std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
   return {x_res(rng), y_res(rng)};
 }
 
+// Initialize Functions
+
 // Generates board of size x, y, with specified bomb count
 Board::Board(int x, int y, int bombs) {
   this->x_size_ = x;
   this->y_size_ = y;
 
   this->bomb_count_ = bombs;
+  this->tiles_ = x * y;
+  this->tiles_left_ = this->tiles_ - bombs;
 
   this->board_.reserve(x);
   for (size_t i = 0; i < x; i++) {
@@ -51,6 +55,8 @@ static const int ADJACENT[8][2] = {
   {-1, -1}, {0, -1}, {1, -1}
 };
 
+// Private Methods
+
 // Private method that updates the number count of tiles surrounding a new bomb
 void Board::UpdateSurrounding(int x, int y) {
   for (int i = 0; i < MOVES; i++) {
@@ -65,6 +71,15 @@ void Board::UpdateSurrounding(int x, int y) {
     }
   }
 }
+
+// Private method that handles winning
+void Board::WinBoard() {
+  this->won_ = true;
+  this->RevealBoard();
+  std::cout << "Game Won!\n";
+}
+
+// Public Methods
 
 // Generates a board with randomly placed bombs
 void Board::GenerateBoard() {
@@ -82,6 +97,10 @@ void Board::GenerateBoard() {
 
 // Resets board and generates new one
 void Board::ResetBoard() {
+  this->won_ = false;
+  this->tiles_left_ = this->tiles_ - this->bomb_count_;
+  this->flag_count_ = 0;
+
   for (size_t i = 0; i < this->x_size_; i++) { 
     for (size_t j = 0; j < this->y_size_; j++) {
       this->board_[i][j]->Update(-2);
@@ -111,6 +130,12 @@ void Board::RevealTile(const int& x, const int& y) {
 
   std::cout << "revealing " << x << ", " << y << "\n";
   t->Activate();
+  this->tiles_left_--;
+  std::cout << "tiles left: " << this->tiles_left_ << "\n";
+
+  if (tiles_left_ == 0)
+    this->WinBoard();
+
   if (t->TileNumber() == 0) {
     for (int i = 0; i < MOVES; i++) {
       this->RevealTile(x + ADJACENT[i][0], y + ADJACENT[i][1]);
@@ -130,7 +155,8 @@ void Board::FlagTile(const int& x, const int& y) {
     return;
   
   std::cout << "flagging " << x << ", " << y << "\n";
-  t->Flag();
+  this->flag_count_+= t->Flag() ? 1 : -1 ;
+  std::cout << "Flags: " << this->flag_count_ << "\n"; 
 }
 
 // Returns board's x size

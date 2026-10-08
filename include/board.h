@@ -23,9 +23,16 @@ class Board{
 
   private:
   void UpdateSurrounding(int x, int y);
+  void WinBoard();
+
   int x_size_;
   int y_size_;
+  int tiles_;
   int bomb_count_;
+  
+  int tiles_left_;
+  int flag_count_ = 0;
+  bool won_ = false;
 
   std::vector<std::vector<Tile*>> board_;
 };
