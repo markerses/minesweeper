@@ -15,7 +15,9 @@ std::pair<int, int> generate_rand_pos(int x_range, int y_range) {
   return {x_res(rng), y_res(rng)};
 }
 
+//
 // Initialize Functions
+//
 
 // Generates board of size x, y, with specified bomb count
 Board::Board(int x, int y, int bombs) {
@@ -55,7 +57,9 @@ static const int ADJACENT[8][2] = {
   {-1, -1}, {0, -1}, {1, -1}
 };
 
+//
 // Private Methods
+//
 
 // Private method that updates the number count of tiles surrounding a new bomb
 void Board::UpdateSurrounding(int x, int y) {
@@ -84,7 +88,9 @@ bool Board::IsValid(const int& x, const int& y) {
           (y >= 0 && y < this->x_size_));
 }
 
+//
 // Public Methods
+//
 
 // Generates a board with randomly placed bombs
 void Board::GenerateBoard() {
@@ -149,6 +155,9 @@ void Board::RevealTile(const int& x, const int& y) {
   }
 }
 
+
+// Reveals adjacent tiles of a revealed tile
+// Must have adjacent flag count equal to tile's number
 void Board::Chord(const int& x, const int& y) {
   if (!this->IsValid(x, y))
     return;
@@ -193,11 +202,21 @@ void Board::FlagTile(const int& x, const int& y) {
   std::cout << "Flags: " << this->flag_count_ << "\n"; 
 }
 
+//
+// Getters
+//
+
 // Returns board's x size
 int Board::GetSizeX() {return x_size_;}
 
 // Returns board's y size
 int Board::GetSizeY() {return x_size_;}
+
+// Returns bomb count
+int Board::GetBombCount() {return this->bomb_count_;}
+
+// Returns flag count
+int Board::GetFlagCount() {return this->flag_count_;}
 
 // Returns Tile pointer
 Tile* Board::GetTile(const int& x, const int& y) {

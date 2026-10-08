@@ -18,6 +18,8 @@ class Board{
 
   int GetSizeX();
   int GetSizeY();
+  int GetFlagCount();
+  int GetBombCount();
   Tile* GetTile(const int& x, const int& y);
 
   std::vector<std::vector<Tile*>> ShowBoard();
