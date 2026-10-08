@@ -26,7 +26,10 @@ void Tile::Update(int c) {
     this->num_++;
 }
 
-void Tile::Flag() { this->flagged_ = !(this->flagged_); }
+bool Tile::Flag() {
+  this->flagged_ = !(this->flagged_);
+  return this->flagged_;
+}
 
 int Tile::TileNumber() { return this->num_;}
 

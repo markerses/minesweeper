@@ -8,7 +8,7 @@ class Tile {
 
   void Activate();
   void Update(int c);
-  void Flag();
+  bool Flag();
   int TileNumber();
   bool IsVisible();
   bool IsFlagged();
