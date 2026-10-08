@@ -79,6 +79,8 @@ int main() {
 
     DrawBoard(test_board, TILE_SIZE, TILE_SPACING, BOARD_START_X, BOARD_START_Y);
 
+    DrawFlagCount(test_board, BOARD_START_X, BOARD_START_Y - 60, 30);
+
 
     EndDrawing();
   }

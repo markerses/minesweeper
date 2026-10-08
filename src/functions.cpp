@@ -54,6 +54,18 @@ void DrawBoard(Board& b, const int& size, const int& spacing, const int& init_x,
 
 }
 
+// Draws Flag and Bomb count
+void DrawFlagCount(Board& b, const int& x, const int& y, const int& font_size) {
+  std::string bomb_message = "Bomb Count: ";
+  bomb_message += std::to_string(b.GetBombCount());
+
+  std::string flag_message = "Flag Count: ";
+  flag_message += std::to_string(b.GetFlagCount());
+
+  DrawText(bomb_message.c_str(), x, y, font_size, RED);
+  DrawText(flag_message.c_str(), x, y + font_size, font_size, RED);
+}
+
 std::pair<int, int> find_click(Board& b, const int& size, const int& init_x, const int& init_y) {
   int x = (GetMouseX() - init_x) / size;
   int y = (GetMouseY() - init_y) / size;
