@@ -61,7 +61,7 @@ int main() {
       auto [x, y] = find_click(test_board, TILE_SIZE, BOARD_START_X, BOARD_START_Y);
       Tile* tile = test_board.GetTile(x, y);
       if (tile != nullptr) {
-        test_board.RevealTile(x, y);
+        tile->IsVisible() ? test_board.Chord(x, y) : test_board.RevealTile(x, y);
       }
     }
 

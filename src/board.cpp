@@ -63,8 +63,7 @@ void Board::UpdateSurrounding(int x, int y) {
     int move[2] = {ADJACENT[i][0], ADJACENT[i][1]};
     int new_x = x + move[0];
     int new_y = y + move[1];
-    if ((new_x >= 0 && new_x < this->x_size_) &&
-        (new_y >= 0 && new_y < this->x_size_)) {
+    if (this->IsValid(new_x, new_y)) {
           
       Tile* eval = this->board_[new_x][new_y];
       eval->Update(0);  
@@ -77,6 +76,12 @@ void Board::WinBoard() {
   this->won_ = true;
   this->RevealBoard();
   std::cout << "Game Won!\n";
+}
+
+// Private method, checks if x, y is valid
+bool Board::IsValid(const int& x, const int& y) {
+  return ((x >= 0 && x < this->x_size_) &&
+          (y >= 0 && y < this->x_size_));
 }
 
 // Public Methods
@@ -120,8 +125,7 @@ void Board::RevealBoard() {
 
 // Reveals Tile with at board coordinates (x, y) 
 void Board::RevealTile(const int& x, const int& y) {
-  if (x < 0 || x >= this->x_size_ || 
-    y < 0 || y >= this->y_size_)
+  if (!this->IsValid(x, y))
     return;
   Tile* t = this->board_[x][y];
 
@@ -142,6 +146,36 @@ void Board::RevealTile(const int& x, const int& y) {
     }
   } else if (t->TileNumber() == -1) {
     this->RevealBoard();
+  }
+}
+
+void Board::Chord(const int& x, const int& y) {
+  if (!this->IsValid(x, y))
+    return;
+  Tile* t = this->board_[x][y];
+
+  if (t->IsFlagged() || !t->IsVisible())
+    return;
+
+  int flags_adjacent = 0;
+  for (int i = 0; i < MOVES; i++) {
+    int new_x = x + ADJACENT[i][0];
+    int new_y = y + ADJACENT[i][1];
+
+    if (this->IsValid(new_x, new_y)) {
+      Tile* new_t = this->board_[new_x][new_y];
+      if (new_t->IsFlagged())
+        flags_adjacent++;
+    }
+  }
+
+  if (flags_adjacent == t->TileNumber()) {
+    for (int i = 0; i < MOVES; i++) {
+      int new_x = x + ADJACENT[i][0];
+      int new_y = y + ADJACENT[i][1];
+
+      this->RevealTile(new_x, new_y);
+    }
   }
 }
 
