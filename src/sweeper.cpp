@@ -51,6 +51,7 @@ void Sweeper::Calc() {
 void Sweeper::Draw() {
   BeginDrawing();
 
+  ClearBackground(BLACK);
   DrawBoard();
   DrawInfo();
 
