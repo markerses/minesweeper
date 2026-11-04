@@ -30,6 +30,7 @@ To win, you must reveal all safe tiles. Upon winning, the entire board will be s
   - Add customizable size
   - Add challenges
 
-## Building on Linux:
+## Building:
 ``` bash
-  g++ src/tile.cpp src/board.cpp src/sweeper.cpp src/game.cpp src/main.cpp -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o src/main 
+  cmake -B build
+  cmake --build build
