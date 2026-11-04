@@ -12,19 +12,20 @@ class Board{
   void GenerateBoard();
   void ResetBoard();
   void RevealBoard();
-  void RevealTile(const int& x, const int& y);
-  void Chord(const int& x, const int& y);
+  void OnClick(const int& x, const int& y);
   void FlagTile(const int& x, const int& y);
 
   int GetSizeX();
   int GetSizeY();
   int GetFlagCount();
   int GetBombCount();
-  Tile* GetTile(const int& x, const int& y);
 
   std::vector<std::vector<Tile*>> ShowBoard();
 
   private:
+  Tile* GetTile(const int& x, const int& y);
+  void RevealTile(const int& x, const int& y);
+  void Chord(const int& x, const int& y);
   void UpdateSurrounding(int x, int y);
   void WinBoard();
   bool IsValid(const int& x, const int& y);

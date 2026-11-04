@@ -88,47 +88,6 @@ bool Board::IsValid(const int& x, const int& y) {
           (y >= 0 && y < this->x_size_));
 }
 
-//
-// Public Methods
-//
-
-// Generates a board with randomly placed bombs
-void Board::GenerateBoard() {
-  int i = 0;
-  while (i < this->bomb_count_) {
-    std::pair<int, int> res = generate_rand_pos(this->x_size_, this->y_size_);
-    Tile* eval = this->board_[res.first][res.second];
-    if (eval->TileNumber() != -1) {
-      eval->Update(-1);
-      this->UpdateSurrounding(res.first, res.second);
-      i++;
-    }
-  }
-}
-
-// Resets board and generates new one
-void Board::ResetBoard() {
-  this->won_ = false;
-  this->tiles_left_ = this->tiles_ - this->bomb_count_;
-  this->flag_count_ = 0;
-
-  for (size_t i = 0; i < this->x_size_; i++) { 
-    for (size_t j = 0; j < this->y_size_; j++) {
-      this->board_[i][j]->Update(-2);
-    }
-  }
-  this->GenerateBoard();
-}
-
-// Reveals entire board
-void Board::RevealBoard() {
-  for (size_t i = 0; i < this->x_size_; i++) {
-    for (size_t j = 0; j < this->y_size_; j++) {
-      this->board_[i][j]->Activate();
-    }
-  }
-}
-
 // Reveals Tile with at board coordinates (x, y) 
 void Board::RevealTile(const int& x, const int& y) {
   if (!this->IsValid(x, y))
@@ -186,6 +145,58 @@ void Board::Chord(const int& x, const int& y) {
       this->RevealTile(new_x, new_y);
     }
   }
+}
+
+//
+// Public Methods
+//
+
+// Generates a board with randomly placed bombs
+void Board::GenerateBoard() {
+  int i = 0;
+  while (i < this->bomb_count_) {
+    std::pair<int, int> res = generate_rand_pos(this->x_size_, this->y_size_);
+    Tile* eval = this->board_[res.first][res.second];
+    if (eval->TileNumber() != -1) {
+      eval->Update(-1);
+      this->UpdateSurrounding(res.first, res.second);
+      i++;
+    }
+  }
+}
+
+// Resets board and generates new one
+void Board::ResetBoard() {
+  this->won_ = false;
+  this->tiles_left_ = this->tiles_ - this->bomb_count_;
+  this->flag_count_ = 0;
+
+  for (size_t i = 0; i < this->x_size_; i++) { 
+    for (size_t j = 0; j < this->y_size_; j++) {
+      this->board_[i][j]->Update(-2);
+    }
+  }
+  this->GenerateBoard();
+}
+
+// Reveals entire board
+void Board::RevealBoard() {
+  for (size_t i = 0; i < this->x_size_; i++) {
+    for (size_t j = 0; j < this->y_size_; j++) {
+      this->board_[i][j]->Activate();
+    }
+  }
+}
+
+void Board::OnClick(const int& x, const int& y) {
+  if (!this->IsValid(x, y))
+    return;
+
+  Tile* t = this->GetTile(x, y);
+  if (t->IsFlagged())
+    return;
+
+  t->IsVisible() ? this->Chord(x, y) : this->RevealTile(x, y);
 }
 
 void Board::FlagTile(const int& x, const int& y) {
