@@ -23,7 +23,7 @@ class Sweeper {
 
   void DrawInfo();
 
-  const int kSTART_FROM_CORNER = 100;
+  const int kSTART_FROM_CORNER = 50;
   const int kTILE_SIZE = 30;
   Board board_;
 };

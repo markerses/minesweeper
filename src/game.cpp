@@ -18,7 +18,7 @@ Game::~Game() {
 }
 
 void Game::Run() {
-  InitWindow(800, 800, "Sweeper");
+  InitWindow(550, 550, "Sweeper");
   while (!WindowShouldClose()) {
     if (this->state_ == "Game") {
       s_.SweepLoop();
