@@ -95,6 +95,7 @@ void Sweeper::DrawInfo() {
   std::string flag_message = "Flag Count: ";
   flag_message += std::to_string(this->board_.GetFlagCount());
 
-  DrawText(bomb_message.c_str(), kSTART_FROM_CORNER , kSTART_FROM_CORNER, FONT_SIZE, RED);
-  DrawText(flag_message.c_str(), kSTART_FROM_CORNER, kSTART_FROM_CORNER + FONT_SIZE, FONT_SIZE, RED);
+  int y_offset = kSTART_FROM_CORNER - FONT_SIZE;
+  DrawText(bomb_message.c_str(), kSTART_FROM_CORNER , y_offset, FONT_SIZE, RED);
+  DrawText(flag_message.c_str(), kSTART_FROM_CORNER, y_offset - FONT_SIZE, FONT_SIZE, RED);
 }
