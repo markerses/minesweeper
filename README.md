@@ -19,8 +19,17 @@ When right clicking, you place a flag.
 
 To win, you must reveal all safe tiles. Upon winning, the entire board will be shown.
 
+## Features
+
+Left click to reveal or chord tiles
+
+Right click to flag
+
+Space to reset board
+
+Game timer, shows your time for each board in seconds
+
 ## Todo:
-  - Add timer
   - Add Menu
   - Add 3 preset modes
     - Beginner, Medium, Expert
