@@ -87,7 +87,8 @@ bool Board::IsValid(const int& x, const int& y) {
           (y >= 0 && y < this->x_size_));
 }
 
-// Reveals Tile with at board coordinates (x, y) 
+// Reveals Tile with at board coordinates (x, y)
+// Returns true if successful
 bool Board::RevealTile(const int& x, const int& y) {
   if (!this->IsValid(x, y))
     return false;
@@ -117,6 +118,7 @@ bool Board::RevealTile(const int& x, const int& y) {
 
 // Reveals adjacent tiles of a revealed tile
 // Must have adjacent flag count equal to tile's number
+// Returns if chord was successful
 bool Board::Chord(const int& x, const int& y) {
   if (!this->IsValid(x, y))
     return false;
@@ -190,6 +192,8 @@ void Board::RevealBoard() {
   this->complete_ = true;
 }
 
+// Either reveals one tile, or chords around tile depending of the tile's status
+// Returns if click was successful
 bool Board::OnClick(const int& x, const int& y) {
   if (!this->IsValid(x, y))
     return false;
@@ -205,6 +209,7 @@ bool Board::OnClick(const int& x, const int& y) {
   }
 }
 
+// Flags tile, returns if flag was successful
 bool Board::FlagTile(const int& x, const int& y) {
   if (x < 0 || x >= this->x_size_ || 
     y < 0 || y >= this->y_size_)
