@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 
-Sweeper::Sweeper(const int& x, const int& y, const int& bombs) : board_{x, y, bombs} {
-  
+Sweeper::Sweeper(const int& x, const int& y, const int& bombs) : board_{x, y, bombs}, state_{"idle"}, time_elapsed_{0} {
+
 }
 
 Sweeper::~Sweeper() {
@@ -23,18 +23,33 @@ void Sweeper::SweepLoop() {
 void Sweeper::Inputs() {
   if (IsKeyPressed(KEY_SPACE)) {
     this->board_.ResetBoard();
+    this->state_ = "idle";
+    this->time_elapsed_ = 0.0;
   }
 
   this->MouseInputs();
 }
 
 void Sweeper::MouseInputs() {
-  auto [x, y] = MouseToTile(GetMouseX(), GetMouseY());
+  int clicked = 0;
+  if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+    clicked = 2;
+  } else if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    clicked = 1;
+  }
 
-  if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-    this->board_.OnClick(x, y);
-  } else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-    this->board_.FlagTile(x, y);
+  if (clicked > 0) {
+    auto [x, y] = MouseToTile(GetMouseX(), GetMouseY());
+    bool success = false;
+
+    if (clicked == 1) {
+      success = this->board_.OnClick(x, y);
+    } else if (clicked == 2) {
+      success = this->board_.FlagTile(x, y);
+    }
+
+    if (this->state_ == "idle" && success)
+      this->state_ = "clicked"; 
   }
 }
 
@@ -45,7 +60,28 @@ std::pair<int, int> Sweeper::MouseToTile(const int& x, const int& y) {
 }
 
 void Sweeper::Calc() {
+  if (this->state_ == "clicked") {
+    StartTimer();
+  } else if (this->state_ == "running") {
+    UpdateTime();
+  }
 
+  if (this->board_.BoardStatus()) {
+    StopTime();
+  }
+}
+
+void Sweeper::StartTimer() {
+  this->start_time_ = GetTime();
+  this->state_ = "running";
+}
+
+void Sweeper::UpdateTime() {
+  this->time_elapsed_ = GetTime() - this->start_time_;
+}
+
+void Sweeper::StopTime() {
+  this->state_ = "idle";
 }
 
 void Sweeper::Draw() {
@@ -96,7 +132,21 @@ void Sweeper::DrawInfo() {
   std::string flag_message = "Flag Count: ";
   flag_message += std::to_string(this->board_.GetFlagCount());
 
+  std::string timer_text = std::to_string(this->time_elapsed_);
+  CutDecimal(timer_text);
+
   int y_offset = kSTART_FROM_CORNER - FONT_SIZE;
   DrawText(bomb_message.c_str(), kSTART_FROM_CORNER , y_offset, FONT_SIZE, RED);
   DrawText(flag_message.c_str(), kSTART_FROM_CORNER, y_offset - FONT_SIZE, FONT_SIZE, RED);
+
+  int x_midpoint = (kTILE_SIZE * this->board_.GetSizeX() / 2) + kSTART_FROM_CORNER;
+  DrawText(timer_text.c_str(), x_midpoint - (timer_text.size() * 5 / 2), y_offset, FONT_SIZE, RED);
+}
+
+// Cuts decimals to 2 decimal points
+void Sweeper::CutDecimal(std::string& s) {
+  size_t pos = s.find(".");
+  if (pos != std::string::npos && s.size() > pos + 2) {
+    s.resize(pos+3);
+  }
 }

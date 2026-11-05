@@ -77,7 +77,6 @@ void Board::UpdateSurrounding(int x, int y) {
 
 // Private method that handles winning
 void Board::WinBoard() {
-  this->won_ = true;
   this->RevealBoard();
   std::cout << "Game Won!\n";
 }
@@ -89,13 +88,13 @@ bool Board::IsValid(const int& x, const int& y) {
 }
 
 // Reveals Tile with at board coordinates (x, y) 
-void Board::RevealTile(const int& x, const int& y) {
+bool Board::RevealTile(const int& x, const int& y) {
   if (!this->IsValid(x, y))
-    return;
+    return false;
   Tile* t = this->board_[x][y];
 
     if (t->IsFlagged() || t->IsVisible())
-    return;
+    return false;
 
   std::cout << "revealing " << x << ", " << y << "\n";
   t->Activate();
@@ -112,18 +111,19 @@ void Board::RevealTile(const int& x, const int& y) {
   } else if (t->TileNumber() == -1) {
     this->RevealBoard();
   }
+  return true;
 }
 
 
 // Reveals adjacent tiles of a revealed tile
 // Must have adjacent flag count equal to tile's number
-void Board::Chord(const int& x, const int& y) {
+bool Board::Chord(const int& x, const int& y) {
   if (!this->IsValid(x, y))
-    return;
+    return false;
   Tile* t = this->board_[x][y];
 
   if (t->IsFlagged() || !t->IsVisible())
-    return;
+    return false;
 
   int flags_adjacent = 0;
   for (int i = 0; i < MOVES; i++) {
@@ -145,6 +145,7 @@ void Board::Chord(const int& x, const int& y) {
       this->RevealTile(new_x, new_y);
     }
   }
+  return true;
 }
 
 //
@@ -167,7 +168,7 @@ void Board::GenerateBoard() {
 
 // Resets board and generates new one
 void Board::ResetBoard() {
-  this->won_ = false;
+  this->complete_ = false;
   this->tiles_left_ = this->tiles_ - this->bomb_count_;
   this->flag_count_ = 0;
 
@@ -186,31 +187,37 @@ void Board::RevealBoard() {
       this->board_[i][j]->Activate();
     }
   }
+  this->complete_ = true;
 }
 
-void Board::OnClick(const int& x, const int& y) {
+bool Board::OnClick(const int& x, const int& y) {
   if (!this->IsValid(x, y))
-    return;
+    return false;
 
   Tile* t = this->GetTile(x, y);
   if (t->IsFlagged())
-    return;
+    return false;
 
-  t->IsVisible() ? this->Chord(x, y) : this->RevealTile(x, y);
+  if (t->IsVisible()) {
+    return this->Chord(x, y);
+  } else {
+    return this->RevealTile(x, y);
+  }
 }
 
-void Board::FlagTile(const int& x, const int& y) {
+bool Board::FlagTile(const int& x, const int& y) {
   if (x < 0 || x >= this->x_size_ || 
     y < 0 || y >= this->y_size_)
-    return;
+    return false;
 
   Tile* t = this->board_[x][y];
   if (t->IsVisible())
-    return;
+    return false;
   
   std::cout << "flagging " << x << ", " << y << "\n";
   this->flag_count_+= t->Flag() ? 1 : -1 ;
-  std::cout << "Flags: " << this->flag_count_ << "\n"; 
+  std::cout << "Flags: " << this->flag_count_ << "\n";
+  return true;
 }
 
 //
@@ -228,6 +235,9 @@ int Board::GetBombCount() {return this->bomb_count_;}
 
 // Returns flag count
 int Board::GetFlagCount() {return this->flag_count_;}
+
+// Returns if game is over
+bool Board::BoardStatus() {return this->complete_;}
 
 // Returns Tile pointer
 Tile* Board::GetTile(const int& x, const int& y) {
