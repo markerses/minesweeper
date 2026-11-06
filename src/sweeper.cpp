@@ -126,18 +126,15 @@ void Sweeper::DrawBoard() {
 
 void Sweeper::DrawInfo() {
   const int FONT_SIZE = 20;
-  std::string bomb_message = "Bomb Count: ";
-  bomb_message += std::to_string(this->board_.GetBombCount());
-
-  std::string flag_message = "Flag Count: ";
-  flag_message += std::to_string(this->board_.GetFlagCount());
+  std::string bomb_message = "Bombs: ";
+  int bombs = this->board_.GetBombCount() - this->board_.GetFlagCount();
+  bomb_message += std::to_string(bombs);
 
   std::string timer_text = std::to_string(this->time_elapsed_);
   CutDecimal(timer_text);
 
   int y_offset = kSTART_FROM_CORNER - FONT_SIZE;
   DrawText(bomb_message.c_str(), kSTART_FROM_CORNER , y_offset, FONT_SIZE, RED);
-  DrawText(flag_message.c_str(), kSTART_FROM_CORNER, y_offset - FONT_SIZE, FONT_SIZE, RED);
 
   int x_midpoint = (kTILE_SIZE * this->board_.GetSizeX() / 2) + kSTART_FROM_CORNER;
   DrawText(timer_text.c_str(), x_midpoint - (timer_text.size() * 5 / 2), y_offset, FONT_SIZE, RED);
