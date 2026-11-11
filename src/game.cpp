@@ -8,20 +8,21 @@ const int X_BOARD = 15;
 const int Y_BOARD = 15;
 const int BOMBS = 30;
 
-Game::Game() : s_{X_BOARD, Y_BOARD, BOMBS} {
-  this->state_ = "Game";
+Game::Game() : s_{nullptr}, m_{nullptr} {
+  this->state_ = "Menu";
   this->Run();
 }
 
 Game::~Game() {
-
+  delete this->s_;
+  delete this->m_;
 }
 
 void Game::Run() {
-  InitWindow(550, 550, "Sweeper");
+  InitWindow(780, 780, "Sweeper");
   while (!WindowShouldClose()) {
     if (this->state_ == "Game") {
-      s_.SweepLoop();
+      s_->SweepLoop();
     } else {
     }
   }

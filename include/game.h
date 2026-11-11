@@ -2,6 +2,7 @@
 #define M_GAME_H
 
 #include "sweeper.h"
+#include "menu.h"
 
 #include <string>
 
@@ -16,7 +17,8 @@ class Game {
   void SwitchState();
 
   std::string state_;
-  Sweeper s_;
+  Sweeper* s_;
+  Menu* m_;
   
 
 };
