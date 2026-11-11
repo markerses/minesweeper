@@ -16,5 +16,5 @@ void Menu::MenuLoop() {
 }
 
 void Menu::Draw() {
-  
+
 }
