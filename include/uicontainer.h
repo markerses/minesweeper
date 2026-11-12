@@ -6,15 +6,17 @@
 #include <vector>
 
 class UIContainer {
-  UIContainer();
-  ~UIContainer();
+  public:
+    UIContainer();
+    ~UIContainer();
 
-  void AddUI(Button* button);
-  void UpdateUI(Button* button);
+    void AddUI(Button* button);
+    void UpdateUI(Button* old, Button* new_button);
 
-  void DrawAll();
-
-  std::vector<Button*> buttons_;
+    void DrawAll();
+    
+  private:
+   std::vector<Button*> buttons_;
 };
 
 #endif
