@@ -14,7 +14,7 @@ class Game {
   private:
   void Run();
 
-  void SwitchState();
+  void InitSweep(std::vector<int> args);
 
   std::string state_;
   Sweeper* s_;

@@ -3,6 +3,8 @@
 #include "../include/raylib.h"
 
 #include <iostream>
+#include <vector>
+#include <string>
 
 const int X_BOARD = 15;
 const int Y_BOARD = 15;
@@ -10,6 +12,7 @@ const int BOMBS = 30;
 
 Game::Game() : s_{nullptr}, m_{nullptr} {
   this->state_ = "Menu";
+  this->m_ = new Menu();
   this->Run();
 }
 
@@ -24,8 +27,18 @@ void Game::Run() {
     if (this->state_ == "Game") {
       s_->SweepLoop();
     } else {
+      std::vector<int>* args = m_->MenuLoop();
+
+      if (args != nullptr) {
+        InitSweep(*args);
+      }
     }
   }
 
   CloseWindow();
+}
+
+void Game::InitSweep(std::vector<int> args) {
+  this->s_ = new Sweeper(args[0], args[1], args[2]);
+  this->state_ = "Game";
 }
