@@ -22,6 +22,10 @@ void UIContainer::UpdateUI(const std::string& name, Button* button) {
   }
 }
 
+Button* UIContainer::GetUIButton(const std::string& name) {
+  return this->buttons_.find(name)->second;
+}
+
 void UIContainer::DrawAll() {
   for (auto i = this->buttons_.begin() ; i != this->buttons_.end(); i++) {
     i->second->Draw();
