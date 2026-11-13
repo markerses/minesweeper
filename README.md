@@ -21,6 +21,8 @@ To win, you must reveal all safe tiles. Upon winning, the entire board will be s
 
 ## Features
 
+3 Modes (Easy 9x9, Medium 16x16, Hard 30x16)
+
 Left click to reveal or chord tiles
 
 Right click to flag
