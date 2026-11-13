@@ -36,7 +36,7 @@ void Button::Draw() {
   DrawRectangle(this->x_, this->y_, this->w_, this->h_, this->color_);
 
   if (!this->text_.empty()) {
-    int x_centered = this->x_ + (this->w_ / 2) - ((this->text_.size() / 2) * (this->text_size_ / 4));
+    int x_centered = this->x_ + (this->w_ / 2) - ((this->text_.size() / 2) * (this->text_size_ * 0.6));
     int y_centered = this->y_ + (this->h_ / 2) - (this->text_size_ / 2);
     DrawText(this->text_.c_str(), x_centered, y_centered, this->text_size_, BLACK);
   }

@@ -21,7 +21,7 @@ class Menu {
     UIContainer uis_;
     Button easy_button_;
     std::string state_;
-    std::vector<int> return_message;
+    std::vector<int> return_message_;
 };
 
 #endif

@@ -20,16 +20,26 @@ std::vector<int>* Menu::MenuLoop() {
   Inputs();
   Calc();
   Draw();
-  return this->state_ == "startGame" ? &return_message : nullptr;
+  return this->state_ == "startGame" ? &this->return_message_ : nullptr;
 }
 
 void Menu::Inputs() {
   if (this->easy_button_.OnClick(MOUSE_BUTTON_LEFT)) {
     this->state_ = "startGame";
-    this->return_message = EASY_ARGS;
+    this->return_message_ = EASY_ARGS;
   }
 }
 
+void Menu::Calc() {
+
+}
+
 void Menu::Draw() {
+  BeginDrawing();
+
+  ClearBackground(BLACK);
+
   uis_.DrawAll();
+
+  EndDrawing();
 }
