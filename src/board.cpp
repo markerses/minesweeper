@@ -84,7 +84,7 @@ void Board::WinBoard() {
 // Private method, checks if x, y is valid
 bool Board::IsValid(const int& x, const int& y) {
   return ((x >= 0 && x < this->x_size_) &&
-          (y >= 0 && y < this->x_size_));
+          (y >= 0 && y < this->y_size_));
 }
 
 // Reveals Tile with at board coordinates (x, y)
@@ -211,8 +211,7 @@ bool Board::OnClick(const int& x, const int& y) {
 
 // Flags tile, returns if flag was successful
 bool Board::FlagTile(const int& x, const int& y) {
-  if (x < 0 || x >= this->x_size_ || 
-    y < 0 || y >= this->y_size_)
+  if (!this->IsValid(x, y))
     return false;
 
   Tile* t = this->board_[x][y];
@@ -233,7 +232,7 @@ bool Board::FlagTile(const int& x, const int& y) {
 int Board::GetSizeX() {return x_size_;}
 
 // Returns board's y size
-int Board::GetSizeY() {return x_size_;}
+int Board::GetSizeY() {return y_size_;}
 
 // Returns bomb count
 int Board::GetBombCount() {return this->bomb_count_;}
@@ -246,7 +245,7 @@ bool Board::BoardStatus() {return this->complete_;}
 
 // Returns Tile pointer
 Tile* Board::GetTile(const int& x, const int& y) {
-  if ((x >= 0 && x < this->x_size_) && (y >= 0 && y < this->y_size_)) {
+  if (this->IsValid(x, y)) {
     return this->board_[x][y];
   }
   return nullptr;

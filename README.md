@@ -30,7 +30,6 @@ Space to reset board
 Game timer, shows your time for each board in seconds
 
 ## Todo:
-  - Fix error where board fails for non-square boards
   - Create UI element classes (text label, image, text buttons)
   - Add Menu
   - Show stats
