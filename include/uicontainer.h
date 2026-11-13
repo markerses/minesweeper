@@ -12,7 +12,6 @@ class UIContainer {
     ~UIContainer();
 
     void AddUI(const std::string& name, Button* button);
-    void UpdateUI(const std::string& name, Button* button);
     Button* GetUIButton(const std::string& name);
 
     void DrawAll();

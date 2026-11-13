@@ -4,6 +4,7 @@
 #include "uicontainer.h"
 #include "button.h"
 
+#include <vector>
 #include <string>
 
 class Menu {
@@ -15,11 +16,13 @@ class Menu {
 
   private:
     void Inputs();
+
+    void ClickDifficulty();
+
     void Calc();
     void Draw();
 
     UIContainer uis_;
-    Button easy_button_;
     std::string state_;
     std::vector<int> return_message_;
 };
