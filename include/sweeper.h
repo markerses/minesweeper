@@ -7,39 +7,40 @@
 
 class Sweeper {
   public:
-  Sweeper(const int& x, const int& y, const int& bombs);
-  ~Sweeper();
-  void SweepLoop();
+    Sweeper(const int& x, const int& y, const int& bombs);
+    ~Sweeper();
+    void SweepLoop();
+
+    const int kSTART_FROM_CORNER = 50;
+    const int kTILE_SIZE = 30;
 
   private:
-  void Inputs();
+    void Inputs();
 
-  void MouseInputs();
+    void MouseInputs();
 
-  std::pair<int, int> MouseToTile(const int& x, const int& y);
+    std::pair<int, int> MouseToTile(const int& x, const int& y);
 
-  void Calc();
+    void Calc();
 
-  void StartTimer();
+    void StartTimer();
 
-  void UpdateTime();
+    void UpdateTime();
 
-  void StopTime();
+    void StopTime();
 
-  void Draw();
+    void Draw();
 
-  void DrawBoard();
+    void DrawBoard();
 
-  void DrawInfo();
+    void DrawInfo();
 
-  void CutDecimal(std::string& s);
+    void CutDecimal(std::string& s);
 
-  const int kSTART_FROM_CORNER = 50;
-  const int kTILE_SIZE = 30;
-  Board board_;
-  double start_time_;
-  double time_elapsed_;
-  std::string state_;
+    Board board_;
+    double start_time_;
+    double time_elapsed_;
+    std::string state_;
 };
 
 #endif

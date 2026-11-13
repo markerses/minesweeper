@@ -41,4 +41,7 @@ void Game::Run() {
 void Game::InitSweep(std::vector<int> args) {
   this->s_ = new Sweeper(args[0], args[1], args[2]);
   this->state_ = "Game";
+  int x = (s_->kSTART_FROM_CORNER * 2) + (s_->kTILE_SIZE * args[0]);
+  int y = (s_->kSTART_FROM_CORNER * 2) + (s_->kTILE_SIZE * args[1]);
+  SetWindowSize(x, y);
 }
