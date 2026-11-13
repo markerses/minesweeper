@@ -30,14 +30,16 @@ Space to reset board
 Game timer, shows your time for each board in seconds
 
 ## Todo:
+  - Fix error where board fails for non-square boards
+  - Create UI element classes (text label, image, text buttons)
   - Add Menu
-  - Add 3 preset modes
-    - Beginner, Medium, Expert
   - Show stats
     - Games won in each mode, fastest time, ect.
   - Save stats
-  - Add customizable size
+  - Add customizable board size
+  - Add settings for boards
   - Add challenges
+  - Add graphics/polish
 
 ## Building:
 ``` bash
