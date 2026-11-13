@@ -3,20 +3,21 @@
 
 #include "button.h"
 
-#include <vector>
+#include <unordered_map>
+#include <string>
 
 class UIContainer {
   public:
     UIContainer();
     ~UIContainer();
 
-    void AddUI(Button* button);
-    void UpdateUI(Button* old, Button* new_button);
+    void AddUI(const std::string& name, Button* button);
+    void UpdateUI(const std::string& name, Button* button);
 
     void DrawAll();
     
   private:
-   std::vector<Button*> buttons_;
+   std::unordered_map<std::string, Button*> buttons_;
 };
 
 #endif

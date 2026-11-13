@@ -12,21 +12,18 @@ UIContainer::~UIContainer() {
 
 }
 
-void UIContainer::AddUI(Button* button) {
-  this->buttons_.push_back(button);
+void UIContainer::AddUI(const std::string& name, Button* button) {
+  this->buttons_.insert({name, button});
 }
 
-void UIContainer::UpdateUI(Button* old, Button* new_button ) {
-  for (auto i = this->buttons_.begin(); i != this->buttons_.end(); i++) {
-    if (*i == old) {
-      this->buttons_.erase(i);
-      this->buttons_.push_back(new_button);
-    }
+void UIContainer::UpdateUI(const std::string& name, Button* button) {
+  if (this->buttons_.find(name) != this->buttons_.end()) {
+    this->buttons_[name] = button;
   }
 }
 
 void UIContainer::DrawAll() {
-  for (size_t i = 0 ; i < this->buttons_.size(); i++) {
-    this->buttons_[i]->Draw();
+  for (auto i = this->buttons_.begin() ; i != this->buttons_.end(); i++) {
+    i->second->Draw();
   }
 }
